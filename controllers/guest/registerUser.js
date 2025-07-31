@@ -1,6 +1,8 @@
+const { PrismaClient } = require("../../generated/prisma");
 const { body, validationResult } = require("express-validator");
 
 const registerController = (() => {
+  const prisma = new PrismaClient();
   /**
    * Guest registration field validations
    */
@@ -32,9 +34,10 @@ const registerController = (() => {
       })
       .withMessage("Passwords do not match."),
   ];
+
   const register = [
     validateRegistration,
-    (req, res) => {
+    async (req, res) => {
       // Retrieve errors from express-validator on input fields
       const errors = validationResult(req);
 
@@ -47,6 +50,22 @@ const registerController = (() => {
           statusCode: 400,
         });
       }
+      // Register user in the database
+      const { username, password } = req.body;
+
+      const registeredUser = await prisma.user.create({
+        data: {
+          username,
+          password,
+        },
+      });
+
+      res.status(201).json({
+        code: "REGISTER_SUCCESS",
+        message: "Registered successfully!",
+        status: 201,
+        data: registeredUser,
+      });
     },
   ];
 
