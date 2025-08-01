@@ -1,6 +1,6 @@
-const { PrismaClient } = require("../../generated/prisma");
-const { body, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
+import { PrismaClient } from "../../generated/prisma/client.js";
+import { body, validationResult } from "express-validator";
+import bcrypt from "bcryptjs";
 
 const registerController = (() => {
   const prisma = new PrismaClient();
@@ -75,4 +75,4 @@ const registerController = (() => {
   return { register };
 })();
 
-module.exports = registerController;
+export default registerController;

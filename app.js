@@ -1,9 +1,11 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+import express from "express";
+import cors from "cors";
+import guestRouter from "./routes/guestRouter.js";
 
-const express = require("express");
-const cors = require("cors");
+dotenv.config();
+
 const app = express();
-const guestRouter = require("./routes/guestRouter");
 
 app.use(cors());
 app.use(express.json());

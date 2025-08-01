@@ -4,7 +4,7 @@
   "description": "A simple template for starting a backend application in express with the necessary basic libraries.",
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

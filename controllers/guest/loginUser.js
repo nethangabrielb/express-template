@@ -1,6 +1,6 @@
-const { PrismaClient } = require("../../generated/prisma");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import { PrismaClient } from "../../generated/prisma/client.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const loginController = (() => {
   const prisma = new PrismaClient();
@@ -58,4 +58,4 @@ const loginController = (() => {
   return { login };
 })();
 
-module.exports = loginController;
+export default loginController;
