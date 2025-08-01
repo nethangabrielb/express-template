@@ -59,7 +59,7 @@ const registerController = (() => {
       const registeredUser = await prisma.user.create({
         data: {
           username,
-          hashedPassword,
+          password: hashedPassword,
         },
       });
 
