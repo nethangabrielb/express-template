@@ -1,5 +1,6 @@
 const { PrismaClient } = require("../../generated/prisma");
 const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
 
 const registerController = (() => {
   const prisma = new PrismaClient();
@@ -50,13 +51,15 @@ const registerController = (() => {
           statusCode: 400,
         });
       }
+
       // Register user in the database
       const { username, password } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 15);
 
       const registeredUser = await prisma.user.create({
         data: {
           username,
-          password,
+          hashedPassword,
         },
       });
 
