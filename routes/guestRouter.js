@@ -1,6 +1,6 @@
 import express from "express";
-import loginController from "../controllers/guest/loginUser.js";
-import registerController from "../controllers/guest/registerUser.js";
+import loginController from "../controllers/guest/loginController.js";
+import registerController from "../controllers/guest/registerController.js";
 
 const { Router } = express;
 const guestRouter = Router();
