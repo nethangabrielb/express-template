@@ -9,30 +9,16 @@ const registerController = (() => {
     validateRegistration,
     async (req, res) => {
       try {
-        const { username, password } = req.body;
+        const { username, email, password } = req.body;
 
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 15);
-
-        // Check if username is already taken
-        const user = await prisma.user.findFirst({
-          where: {
-            username,
-          },
-        });
-
-        if (user.username === username) {
-          res.status(400).json({
-            code: "USERNAME_ALREADY_EXISTS",
-            message: "Username is already taken.",
-            status: 400,
-          });
-        }
 
         // Register
         const registeredUser = await prisma.user.create({
           data: {
             username,
+            email,
             password: hashedPassword,
           },
         });
