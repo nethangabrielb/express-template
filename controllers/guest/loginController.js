@@ -38,7 +38,7 @@ const loginController = (() => {
     if (!isPasswordValid) {
       return res.status(401).json({
         code: "INVALID_PASSWORD",
-        message: "Password is incorrect,",
+        message: "Password is incorrect.",
         status: 401,
       });
     }

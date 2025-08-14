@@ -1,13 +1,10 @@
 import { validationResult } from "express-validator";
-import username from "../rules/username.js";
 import email from "../rules/email.js";
-import password from "../rules/password.js";
-import confirmPassword from "../rules/confirmPassword.js";
 
-const registrationValidation = [username, email, password, confirmPassword];
+const emailValidation = [email];
 
-const validateRegistration = [
-  registrationValidation,
+const validateEmail = [
+  emailValidation,
   (req, res, next) => {
     // Retrieve errors from express-validator on input fields
     const errors = validationResult(req);
@@ -26,4 +23,4 @@ const validateRegistration = [
   },
 ];
 
-export { validateRegistration };
+export { validateEmail };
