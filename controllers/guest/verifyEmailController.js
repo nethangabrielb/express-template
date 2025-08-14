@@ -117,8 +117,6 @@ const verifyEmailController = (() => {
       email = decoded.email;
     });
 
-    console.log(email);
-
     // Check if user with that email exists
     const user = await prisma.user.findUnique({
       where: {
