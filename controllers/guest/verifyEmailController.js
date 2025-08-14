@@ -17,13 +17,13 @@ const transporter = nodemailer.createTransport({
 });
 
 const verifyEmailController = (() => {
-  const verifyEmail = [
+  const sendVerification = [
     validateEmail,
     async (req, res) => {
       const { email } = req.body;
 
       // Get user associated with this email
-      const user = await prisma.user.findFirst({
+      const user = await prisma.user.findUnique({
         where: {
           email,
         },
@@ -38,7 +38,7 @@ const verifyEmailController = (() => {
       }
 
       // Create JWT token
-      const token = jwt.sign(email, process.env.JWT_SECRET);
+      const token = jwt.sign({ email }, process.env.JWT_SECRET);
 
       // Generate link to be sent to the user for verification
       const link = `${process.env.SERVER_URL}/verify-email/${token}`;
@@ -84,6 +84,7 @@ const verifyEmailController = (() => {
                 code: "EMAIL_SENT",
                 message: "Verification sent! Please check your inbox.",
                 status: 200,
+                data: token,
               });
             }
           }
@@ -92,7 +93,66 @@ const verifyEmailController = (() => {
     },
   ];
 
-  return { verifyEmail };
+  const verifyEmail = async (req, res) => {
+    const token = req.params.verificationToken;
+    let email = null;
+
+    if (!token) {
+      return res.status(400).json({
+        code: "TOKEN_EMPTY",
+        message: "Token is required.",
+        status: 400,
+      });
+    }
+
+    // Verify and Decode JWT
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(400).json({
+          code: "INVALID_TOKEN",
+          message: "Token is invalid.",
+          status: 400,
+        });
+      }
+      email = decoded.email;
+    });
+
+    console.log(email);
+
+    // Check if user with that email exists
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        code: "USER_NOT_FOUND",
+        message: "Email not found.",
+        status: 404,
+      });
+    }
+
+    // Otherwise update email as verified
+    const updatedUserEmailVerified = await prisma.user.update({
+      where: {
+        email,
+      },
+      data: {
+        emailVerified: true,
+      },
+    });
+
+    return res.status(200).json({
+      code: "VERIFIED_SUCCESS",
+      message: "Email verified successfuly",
+      status: 200,
+      data: updatedUserEmailVerified,
+    });
+  };
+
+  return { sendVerification, verifyEmail };
 })();
 
 export default verifyEmailController;

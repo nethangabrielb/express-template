@@ -17,6 +17,10 @@ guestRouter.post("/login", loginController.login);
 guestRouter.get("/forgot-password", forgotPasswordController.forgotPassword);
 
 // Verify Email
-guestRouter.get("/verify-email", verifyEmailController.verifyEmail);
+guestRouter.post("/verify-email", verifyEmailController.sendVerification);
+guestRouter.get(
+  "/verify-email/:verificationToken",
+  verifyEmailController.verifyEmail
+);
 
 export default guestRouter;
