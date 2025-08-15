@@ -14,7 +14,7 @@ guestRouter.post("/register", registerController.register);
 guestRouter.post("/login", loginController.login);
 
 // Forgot Password
-guestRouter.get("/forgot-password", forgotPasswordController.forgotPassword);
+guestRouter.post("/forgot-password", forgotPasswordController.forgotPassword);
 
 // Verify Email
 guestRouter.post("/verify-email", verifyEmailController.sendVerification);
