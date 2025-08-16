@@ -9,11 +9,11 @@ import ejs from "ejs";
 const prisma = new PrismaClient();
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.ethereal.email",
-  port: 587,
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
   auth: {
-    user: "solon52@ethereal.email",
-    pass: "B5uEzZ8Vp4Z3N8waqN",
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 });
 
@@ -84,8 +84,7 @@ const forgotPasswordController = (() => {
               status: 500,
             });
           } else {
-            // Send an email to the email address with the
-            // verification link
+            // Send an email to the email address with the OTP
             const info = await transporter.sendMail({
               from: '"Example" <example@example.com>',
               to: email,
