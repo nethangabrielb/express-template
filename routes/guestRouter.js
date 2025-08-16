@@ -3,6 +3,7 @@ import loginController from "../controllers/guest/loginController.js";
 import registerController from "../controllers/guest/registerController.js";
 import forgotPasswordController from "../controllers/guest/forgotPasswordController.js";
 import verifyEmailController from "../controllers/guest/verifyEmailController.js";
+import verifyResetCodeController from "../controllers/guest/verifyResetCodeController.js";
 
 const { Router } = express;
 const guestRouter = Router();
@@ -13,8 +14,9 @@ guestRouter.post("/register", registerController.register);
 // Login
 guestRouter.post("/login", loginController.login);
 
-// Forgot Password
+// Reset Password
 guestRouter.post("/forgot-password", forgotPasswordController.forgotPassword);
+guestRouter.post("/verify-code", verifyResetCodeController.verifyResetCode);
 
 // Verify Email
 guestRouter.post("/verify-email", verifyEmailController.sendVerification);
