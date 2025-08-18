@@ -8,11 +8,11 @@ import { PrismaClient } from "../../generated/prisma/client.js";
 const prisma = new PrismaClient();
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.ethereal.email",
-  port: 587,
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
   auth: {
-    user: "kiana.abernathy71@ethereal.email",
-    pass: "SuZhe89SXdMx3vKsuS",
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 });
 
