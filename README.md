@@ -1,6 +1,6 @@
 # Express Template
 
-A comprehensive Express.js template with authentication, email verification, and essential backend features. This template provides a solid foundation for building scalable REST APIs with modern best practices.
+A simple Express.js template with authentication, email verification, and essential backend features. This template provides a solid foundation for building scalable REST APIs with modern best practices.
 
 ## Features
 
