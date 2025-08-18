@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
-import confirmPassword from "../rules/confirmPassword";
-import password from "../rules/password";
+import confirmPassword from "../rules/confirmPassword.js";
+import password from "../rules/password.js";
 
 const passwordValidation = [password, confirmPassword];
 

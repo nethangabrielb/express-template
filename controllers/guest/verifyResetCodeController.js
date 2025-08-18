@@ -1,4 +1,5 @@
 import { PrismaClient } from "../../generated/prisma/client.js";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
@@ -34,10 +35,22 @@ const verifyResetCodeController = (() => {
       });
     }
 
+    // Create token with user information as payload
+    const token = jwt.sign({ id: otpExists.User.id }, process.env.JWT_SECRET, {
+      expiresIn: "1hr",
+    });
+
+    await prisma.otp.delete({
+      where: {
+        code,
+      },
+    });
+
     res.status(200).json({
       code: "VERIFIED_SUCCESS",
       message: "You are now authorized to change your password.",
       status: 200,
+      data: { token },
     });
   };
 
