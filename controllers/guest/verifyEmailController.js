@@ -29,6 +29,14 @@ const verifyEmailController = (() => {
         },
       });
 
+      if (user.emailVerified) {
+        return res.status(400).json({
+          code: "REQ_INVALID",
+          message: "Email is already verified.",
+          status: 400,
+        });
+      }
+
       if (!user) {
         return res.status(400).json({
           code: "NOT_FOUND",
@@ -133,7 +141,7 @@ const verifyEmailController = (() => {
     }
 
     // Otherwise update email as verified
-    const updatedUserEmailVerified = await prisma.user.update({
+    await prisma.user.update({
       where: {
         email,
       },
@@ -142,12 +150,7 @@ const verifyEmailController = (() => {
       },
     });
 
-    return res.status(200).json({
-      code: "VERIFIED_SUCCESS",
-      message: "Email verified successfuly",
-      status: 200,
-      data: updatedUserEmailVerified,
-    });
+    return res.redirect(`${process.env.CLIENT_URL}/email-verified`);
   };
 
   return { sendVerification, verifyEmail };
